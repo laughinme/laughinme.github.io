@@ -45,11 +45,8 @@
 <body>
     <div class="container">
         <h2>Выберите вашу локацию</h2>
-        <select id="country" onchange="updateCities()">
-            <option value="">Выберите страну</option>
-            <option value="ru">Россия</option>
-            <option value="us">США</option>
-            <option value="de">Германия</option>
+        <select id="country" onchange="loadCities()">
+            <option value="">Загрузка стран...</option>
         </select>
         <select id="city" disabled>
             <option value="">Сначала выберите страну</option>
@@ -57,28 +54,58 @@
         <button id="submit" disabled onclick="sendLocation()">Отправить</button>
     </div>
     <script>
-        const cities = {
-            ru: ["Москва", "Санкт-Петербург", "Казань"],
-            us: ["Нью-Йорк", "Лос-Анджелес", "Чикаго"],
-            de: ["Берлин", "Мюнхен", "Гамбург"]
-        };
+        async function loadCountries() {
+            try {
+                const response = await fetch('countries.json'); // Просто указываем имя файла
+                const countries = await response.json();
+                populateCountries(countries);
+            } catch (error) {
+                console.error('Ошибка загрузки стран:', error);
+            }
+        }
 
-        function updateCities() {
+        function populateCountries(countries) {
             const countrySelect = document.getElementById('country');
+            countrySelect.innerHTML = '<option value="">Выберите страну</option>';
+
+            for (const [name, code] of Object.entries(countries)) {
+                let option = document.createElement('option');
+                option.value = code;
+                option.textContent = name;
+                countrySelect.appendChild(option);
+            }
+        }
+
+        async function loadCities() {
+            const countryCode = document.getElementById('country').value;
             const citySelect = document.getElementById('city');
             const submitButton = document.getElementById('submit');
-            
-            citySelect.innerHTML = '<option value="">Выберите город</option>';
-            citySelect.disabled = !countrySelect.value;
+
+            citySelect.innerHTML = '<option value="">Загрузка городов...</option>';
+            citySelect.disabled = true;
             submitButton.disabled = true;
-            
-            if (countrySelect.value) {
-                cities[countrySelect.value].forEach(city => {
-                    let option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    citySelect.appendChild(option);
-                });
+
+            if (!countryCode) return;
+
+            try {
+                const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?country=${countryCode}&count=10&language=ru`);
+                const data = await response.json();
+
+                citySelect.innerHTML = '<option value="">Выберите город</option>';
+                if (data.results) {
+                    data.results.forEach(city => {
+                        let option = document.createElement('option');
+                        option.value = city.name;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                    citySelect.disabled = false;
+                } else {
+                    citySelect.innerHTML = '<option value="">Нет данных</option>';
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки городов:', error);
+                citySelect.innerHTML = '<option value="">Ошибка загрузки</option>';
             }
         }
 
@@ -87,14 +114,15 @@
         });
 
         function sendLocation() {
-            const country = document.getElementById('country').value;
+            const country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
             const city = document.getElementById('city').value;
             const data = { country, city };
-            
+
             Telegram.WebApp.sendData(JSON.stringify(data));
             Telegram.WebApp.close();
         }
 
+        document.addEventListener('DOMContentLoaded', loadCountries);
         Telegram.WebApp.ready();
     </script>
 </body>
