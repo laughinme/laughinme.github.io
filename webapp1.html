@@ -56,53 +56,45 @@
     <script>
         async function loadCountries() {
             try {
-                const response = await fetch('countries.json'); // Просто указываем имя файла
+                const response = await fetch('static/countries.json');
                 const countries = await response.json();
-                populateCountries(countries);
+                const countrySelect = document.getElementById('country');
+                
+                countrySelect.innerHTML = '<option value="">Выберите страну</option>';
+                countries.forEach(country => {
+                    let option = document.createElement('option');
+                    option.value = country;
+                    option.textContent = country;
+                    countrySelect.appendChild(option);
+                });
             } catch (error) {
                 console.error('Ошибка загрузки стран:', error);
             }
         }
 
-        function populateCountries(countries) {
-            const countrySelect = document.getElementById('country');
-            countrySelect.innerHTML = '<option value="">Выберите страну</option>';
-
-            for (const [name, code] of Object.entries(countries)) {
-                let option = document.createElement('option');
-                option.value = code;
-                option.textContent = name;
-                countrySelect.appendChild(option);
-            }
-        }
-
         async function loadCities() {
-            const countryCode = document.getElementById('country').value;
+            const country = document.getElementById('country').value;
             const citySelect = document.getElementById('city');
             const submitButton = document.getElementById('submit');
-
+            
             citySelect.innerHTML = '<option value="">Загрузка городов...</option>';
             citySelect.disabled = true;
             submitButton.disabled = true;
-
-            if (!countryCode) return;
+            
+            if (!country) return;
 
             try {
-                const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?country=${countryCode}&count=10&language=ru`);
-                const data = await response.json();
+                const response = await fetch(`static/cities/${country}.json`);
+                const cities = await response.json();
 
                 citySelect.innerHTML = '<option value="">Выберите город</option>';
-                if (data.results) {
-                    data.results.forEach(city => {
-                        let option = document.createElement('option');
-                        option.value = city.name;
-                        option.textContent = city.name;
-                        citySelect.appendChild(option);
-                    });
-                    citySelect.disabled = false;
-                } else {
-                    citySelect.innerHTML = '<option value="">Нет данных</option>';
-                }
+                cities.forEach(city => {
+                    let option = document.createElement('option');
+                    option.value = JSON.stringify(city);
+                    option.textContent = city.title;
+                    citySelect.appendChild(option);
+                });
+                citySelect.disabled = false;
             } catch (error) {
                 console.error('Ошибка загрузки городов:', error);
                 citySelect.innerHTML = '<option value="">Ошибка загрузки</option>';
@@ -114,10 +106,15 @@
         });
 
         function sendLocation() {
-            const country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
-            const city = document.getElementById('city').value;
-            const data = { country, city };
-
+            const country = document.getElementById('country').value;
+            const cityData = JSON.parse(document.getElementById('city').value);
+            const data = {
+                country: country,
+                city: cityData.title,
+                lat: cityData.lat,
+                long: cityData.long
+            };
+            
             Telegram.WebApp.sendData(JSON.stringify(data));
             Telegram.WebApp.close();
         }
