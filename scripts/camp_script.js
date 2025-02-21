@@ -2,6 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
     Telegram.WebApp.expand();
 
     const form = document.getElementById("adForm");
+
+    form.querySelectorAll('input[type="text"], input[type="number"]').forEach((inputEl) => {
+        inputEl.setAttribute("enterkeyhint", "done");
+        inputEl.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                inputEl.blur();
+            }
+        });
+    });
     
     form.addEventListener("submit", function (event) {
         event.preventDefault();

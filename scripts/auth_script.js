@@ -13,6 +13,22 @@ const checkFields = () => {
 advertiserIdInput.addEventListener('input', checkFields);
 advertiserNameInput.addEventListener('input', checkFields);
 
+advertiserIdInput.setAttribute("enterkeyhint", "done");
+advertiserIdInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        advertiserIdInput.blur();
+    }
+});
+
+advertiserNameInput.setAttribute("enterkeyhint", "done");
+advertiserNameInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        advertiserNameInput.blur();
+    }
+});
+
 loginButton.addEventListener('click', function() {
     const advertiserId = advertiserIdInput.value;
     const advertiserName = advertiserNameInput.value;
@@ -22,13 +38,8 @@ loginButton.addEventListener('click', function() {
             advertiserId: advertiserId,
             advertiserName: advertiserName
         };
-
-        console.log("Отправка данных в Telegram:", data);
-        try {
-            Telegram.WebApp.sendData(JSON.stringify(data));
-            Telegram.WebApp.close();
-        } catch (e) {
-            console.error("Ошибка отправки данных в WebApp:", e);
-        }
+        
+        Telegram.WebApp.sendData(JSON.stringify(data));
+        Telegram.WebApp.close();
     }
 });

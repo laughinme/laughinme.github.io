@@ -41,11 +41,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const inputElement = document.createElement("input");
         inputElement.type = fieldType || "text";
         inputElement.id = `input_${fieldName}`;
-        if (step) inputElement.step = step;
-        if (!targetingFields.includes(fieldName)) inputElement.required = true;
+      
+        if (step) {
+          inputElement.step = step;
+        }
+
+        if (!targetingFields.includes(fieldName)) {
+          inputElement.required = true;
+        }
+
+        inputElement.setAttribute("enterkeyhint", "done");
+        inputElement.addEventListener("keydown", (evt) => {
+          if (evt.key === "Enter") {
+            evt.preventDefault();
+            inputElement.blur();
+          }
+        });
+
         wrapper.appendChild(inputElement);
       }
-      
       patchForm.appendChild(wrapper);
       this.textContent = "-";
     });
