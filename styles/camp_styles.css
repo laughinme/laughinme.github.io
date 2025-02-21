@@ -6,37 +6,45 @@ body {
     color: #333;
 }
 .container {
+    max-width: 500px;
+    margin: 50px auto 0 auto;
     background-color: #fff;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    max-width: 400px;
-    text-align: center;
-    margin: 50px auto 0 auto;
 }
 h1 {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 30px;
+    text-align: center;
+}
+h2 {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #444;
 }
 .input-group {
     margin-bottom: 20px;
-    text-align: left;
 }
-.input-group input {
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.input-group input,
+.input-group select {
     width: 95%;
     padding: 12px;
     font-size: 16px;
     border: 1px solid #dcdcdc;
-    border-radius: 5px;
+    border-radius: 6px;
     transition: border-color 0.2s;
 }
-.input-group label {
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: block;
-}
-.input-group input:focus {
+.input-group input:focus,
+.input-group select:focus {
     outline: none;
     border-color: #007bff;
 }
