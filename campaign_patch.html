@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Обновление кампании</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/patch_styles.css">
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="scripts/patch_script.js" defer></script>
+</head>
+<body>
+  <div class="container">
+
+    <h1>Обновление кампании</h1>
+
+    <p class="explanation">
+      Выберите поле, которое хотите обновить, нажав на кнопку. Если хотите удалить значение, нажмите и оставьте поле пустым.
+    </p>
+
+    <div class="fields-list">
+
+      <div class="field-row">
+        <span class="field-label">Название кампании</span>
+        <button class="toggle-btn" data-field="ad_title" data-type="text">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Текст кампании</span>
+        <button class="toggle-btn" data-field="ad_text" data-type="text">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Лимит показов</span>
+        <button class="toggle-btn" data-field="impressions_limit" data-type="number">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Лимит кликов</span>
+        <button class="toggle-btn" data-field="clicks_limit" data-type="number">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Цена за показ</span>
+        <button class="toggle-btn" data-field="cost_per_impression" data-type="number" data-step="0.01">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Цена за клик</span>
+        <button class="toggle-btn" data-field="cost_per_click" data-type="number" data-step="0.01">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Дата начала</span>
+        <button class="toggle-btn" data-field="start_date" data-type="number">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Дата конца</span>
+        <button class="toggle-btn" data-field="end_date" data-type="number">+</button>
+      </div>
+      <div class="field-row">
+        <span class="field-label">Пол</span>
+        <button class="toggle-btn" data-field="gender" data-type="select" data-options="ALL,MALE,FEMALE">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Минимальный возраст</span>
+        <button class="toggle-btn" data-field="age_from" data-type="number">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Максимальный возраст</span>
+        <button class="toggle-btn" data-field="age_to" data-type="number">+</button>
+      </div>
+
+      <div class="field-row">
+        <span class="field-label">Локация</span>
+        <button class="toggle-btn" data-field="location" data-type="text">+</button>
+      </div>
+      
+    </div>
+    <form id="patchForm"></form>
+    <button class="submit-btn" id="submitPatch">Отправить изменения</button>
+  </div>
+</body>
+</html>

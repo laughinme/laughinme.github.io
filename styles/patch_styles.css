@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f0f2f5;
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+  }
+  .container {
+    max-width: 500px;
+    margin: 50px auto 0;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .explanation {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.4;
+  }
+  .fields-list {
+    margin-bottom: 25px;
+  }
+  .field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .field-label {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .toggle-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .toggle-btn:hover {
+    background-color: #585858;
+  }
+  #patchForm {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+  .added-field {
+    margin-bottom: 20px;
+  }
+  .added-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  .added-field input,
+  .added-field select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  
+  .added-field input:focus,
+  .added-field select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.2s;
+  }
+  .submit-btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
